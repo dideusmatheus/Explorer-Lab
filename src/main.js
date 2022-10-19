@@ -34,9 +34,57 @@ function setCardType(type){
 
 setCardType("visa");
 
+// site pra ver a documentação do iMask - imask.js.org
 // CVC - security-code
 const securityCode = document.getElementById('security-code'); // posso usar o querySelector tambem
 const securityCodePattern = {
     mask: "0000"
 };
 const securityCodeMask = IMask(securityCode, securityCodePattern);
+
+// expiration-date
+const expirationDate = document.getElementById("expiration-date");
+const expirationDatePattern = {
+    mask: "MM{/}YY",
+    blocks: {
+        MM: {
+            mask: IMask.MaskedRange,
+            from: 1,
+            to: 12
+        },
+        YY: {
+            mask: IMask.MaskedRange,
+            from: String(new Date().getFullYear()).slice(2),
+            to: String(new Date().getFullYear() + 10).slice(2),
+        }
+    }
+}
+const expirationDateMask = IMask(expirationDate, expirationDatePattern);
+
+// card-number
+const cardNumber = document.getElementById("card-number");
+const cardNumberPattern = {
+    mask: [
+        {
+            mask: "0000 0000 0000 0000",
+            regex: /^4\d{0,15}/,
+            cardtype: "visa",
+        },
+        {
+            mask: "0000 0000 0000 0000",
+            regex: /(^5[1-5]\d{0,2}|^22[2-9]\d|^2[3-7]\d{0,2})\d{0,12}/,
+            cardtype: "mastercard",
+        },
+        {
+            mask: "0000 0000 0000 0000",
+            cardtype: "default",
+        },
+    ],
+    dispatch: function(appended, dynamicMasked){
+       const number = (dynamicMasked.value + appended).replace(/\D/g, "");
+       const foundMask = dynamicMasked.compiledMasks.find( (item) => number.match(item.regex));
+       console.log(foundMask)
+       return foundMask;
+    },
+}
+const cardNumberMask = IMask(cardNumber, cardNumberPattern);
