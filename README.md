@@ -1,8 +1,9 @@
 <h1 align="center"> Explorer Lab #01 </h1>
 
 <p align="center">
-Evento exclusivo e gratuito, promovido pela Rocketseat para ensino de tecnologias WEB.
-Para ver o projeto final rodando, clique no link : https://explorer-lab-six-rho.vercel.app/
+Para ver o projeto final rodando, clique no link : https://explorer-lab-six-rho.vercel.app/ <br>
+Evento exclusivo e gratuito, promovido pela Rocketseat para ensino de tecnologias WEB. <br>
+
 </p>
 
 <p align="center">
