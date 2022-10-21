@@ -2,6 +2,7 @@
 
 <p align="center">
 Evento exclusivo e gratuito, promovido pela Rocketseat para ensino de tecnologias WEB.
+Para ver o projeto final rodando, clique no link : https://explorer-lab-six-rho.vercel.app/
 </p>
 
 <p align="center">
