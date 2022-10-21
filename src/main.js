@@ -1,3 +1,4 @@
+// AULA 1
 import "./css/index.css"
 import IMask from "imask";
 
@@ -6,13 +7,6 @@ const ccColor1 = document.querySelector(".cc-bg svg > g g:nth-child(1) path"); /
 const ccColor2 = document.querySelector(".cc-bg svg > g g:nth-child(2) path")
 
 const ccLogo = document.querySelector(".cc-logo span:nth-child(2) img")
-
-// const ccDadosNumero = document.querySelector(".input-wrapper #card-number");
-// const ccDados = document.querySelector(".cc-number");
-
-// console.log(ccDados);
-// console.log(ccDadosNumero);
-
 
 function setCardType(type){
     const colors = {
@@ -32,8 +26,7 @@ function setCardType(type){
 
 }
 
-setCardType("visa");
-
+// AULA 2
 // site pra ver a documentação do iMask - imask.js.org
 // CVC - security-code
 const securityCode = document.getElementById('security-code'); // posso usar o querySelector tambem
@@ -83,8 +76,60 @@ const cardNumberPattern = {
     dispatch: function(appended, dynamicMasked){
        const number = (dynamicMasked.value + appended).replace(/\D/g, "");
        const foundMask = dynamicMasked.compiledMasks.find( (item) => number.match(item.regex));
-       console.log(foundMask)
+       //console.log(foundMask)
        return foundMask;
     },
 }
 const cardNumberMask = IMask(cardNumber, cardNumberPattern);
+
+// AULA 3
+// adicionando um evento ao clicar no botao
+const addButton = document.querySelector("#add-card");
+addButton.addEventListener("click", () => alert("Cartão adicionado."))
+
+// desativando o reload da tela ai clicar no botao
+document.querySelector("form").addEventListener("submit", (event) => event.preventDefault());
+
+// pegando o input digitado no nome do titular e alterando na exibição do cartão
+const cardHolder = document.querySelector("#card-holder");
+cardHolder.addEventListener("input", () => {
+    const ccHolder = document.querySelector(".cc-holder .value");
+    //ccHolder.innerText = cardHolder.value.length === 0 ? "FULANO DA SILVA" : cardHolder.value;
+    if(cardHolder.value.length === 0){
+        ccHolder.innerText = "FULANO DA SILVA";
+        return;
+    }
+    ccHolder.innerText = cardHolder.value;
+    
+})
+
+// pegando o input do CVC e alterando na exibição do cartão
+securityCodeMask.on("accept", () => updateCVC(securityCodeMask.value));
+
+function updateCVC(code){
+    const ccSecurity = document.querySelector(".cc-security .value");
+    if(code.length === 0){
+        ccSecurity.innerText = "1234"
+        return;
+    }
+    ccSecurity.innerText = code;
+}
+
+//pegando o input do numero do cartão e alterando na exibição do cartão
+cardNumberMask.on("accept", () => {
+    const cardType = cardNumberMask.masked.currentMask.cardtype;
+    setCardType(cardType);
+    updateNumberCard(cardNumberMask.value)
+});
+
+function updateNumberCard(number){
+    const ccNumber = document.querySelector(".cc-number");
+    ccNumber.innerText = number.length === 0 ? "1234 5678 9012 3456" : number;
+}
+
+expirationDateMask.on("accept", () =>{updateDate(expirationDateMask.value)});
+
+function updateDate(date){
+    const ccDate = document.querySelector(".cc-expiration .value");
+    ccDate.innerText = date.length === 0 ? "11/22" : date;
+}
